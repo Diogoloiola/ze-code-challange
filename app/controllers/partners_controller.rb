@@ -2,7 +2,7 @@ class PartnersController < ApplicationController
   before_action :set_partner, only: %i[show update destroy]
 
   def index
-    @partners = Partner.all
+    @partners = Partner.filter(permited_filter_params).includes(:addresses).all
   end
 
   def show; end
@@ -33,6 +33,10 @@ class PartnersController < ApplicationController
 
   def set_partner
     @partner = Partner.find(params[:id])
+  end
+
+  def permited_filter_params
+    params.permit(:coordinates)
   end
 
   def partner_params
