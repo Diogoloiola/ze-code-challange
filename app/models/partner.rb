@@ -1,7 +1,8 @@
 class Partner < ApplicationRecord
   before_save :json_to_string
 
-  validates :trading_name, :owner_name, :document, :coverage_area, presence: true
+  validates :trading_name, :owner_name, :coverage_area, presence: true
+  validates :document, uniqueness: true
 
   has_many :addresses
   accepts_nested_attributes_for :addresses
