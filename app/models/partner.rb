@@ -3,6 +3,8 @@ class Partner < ApplicationRecord
 
   validates :trading_name, :owner_name, :document, :coverage_area, presence: true
 
+  has_many :address, dependent: :destroy
+
   def parse_coordinates
     JSON.parse(coverage_area.gsub(/:([a-zA-z]+)/, '"\\1"').gsub('=>', ': ')).symbolize_keys
   end
