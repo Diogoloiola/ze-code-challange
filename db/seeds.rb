@@ -1,7 +1,22 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
-#   Character.create(name: "Luke", movie: movies.first)
+require 'byebug'
+
+full_path_json = Rails.root.join('db/mocks/data.json')
+
+partners = JSON.parse(File.read(full_path_json))
+
+puts 'IMPORTANDO DADOS'
+
+partners['pdvs'].each do |partner|
+  Partner.create!(
+    trading_name: partner['tradingName'],
+    owner_name: partner['ownerName'],
+    document: partner['document'],
+    coverage_area: partner['coverageArea'],
+    addresses_attributes: [
+      type_address: partner['address']['type'],
+      coordinates: partner['address']['coordinates']
+    ]
+  )
+end
+
+puts 'DADOS IMPORTADOS'
